@@ -32,14 +32,14 @@ session_start();
                             <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
                                 <i class="ri-menu-line wrapper-menu"></i>
                                 <a href="index.php" class="header-logo">
-                                    <img src="../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
+                                    <img src="../assets/images/logo.jpg" class="img-fluid rounded-normal light-logo" alt="logo">
                                 </a>
                             </div>
                             <div class="iq-menu-horizontal">
                                 <nav class="iq-sidebar-menu">
                                     <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
                                         <a href="index.php" class="header-logo">
-                                            <img src="../assets/images/logo.png" class="img-fluid rounded-normal" alt="logo">
+                                            <img src="../assets/images/logo.jpg" class="img-fluid rounded-normal" alt="logo">
                                         </a>
                                         <div class="iq-menu-bt-sidebar">
                                             <i class="las la-bars wrapper-menu"></i>
