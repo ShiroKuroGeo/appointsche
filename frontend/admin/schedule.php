@@ -61,8 +61,7 @@ session_start();
                         <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
                             <i class="ri-menu-line wrapper-menu"></i>
                             <a href="index.php" class="header-logo">
-                                <!-- <img src="../../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo"> -->
-                                Logo
+                                <img src="../../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
                             </a>
                         </div>
                         <div class="iq-menu-horizontal">
@@ -108,13 +107,6 @@ session_start();
                                         <div class="iq-sub-dropdown dropdown-menu user-dropdown" aria-labelledby="dropdownMenuButton3">
                                             <div class="card m-0">
                                                 <div class="card-body p-0">
-                                                    <div class="py-3">
-                                                        <a href="user-profile.php" class="iq-sub-card">
-                                                            <div class="media align-items-center">
-                                                                <h6>Account Settings</h6>
-                                                            </div>
-                                                        </a>
-                                                    </div>
                                                     <a class="right-ic p-3 border-top btn-block position-relative text-center" href="../../assets/vue/logout.php" role="button">
                                                         Logout
                                                     </a>

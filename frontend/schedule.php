@@ -37,8 +37,7 @@ session_start();
                         <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
                             <i class="ri-menu-line wrapper-menu"></i>
                             <a href="index.php" class="header-logo">
-                                <!-- <img src="../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo"> -->
-                                Logo
+                                <img src="../assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
                             </a>
                         </div>
                         <div class="iq-menu-horizontal">

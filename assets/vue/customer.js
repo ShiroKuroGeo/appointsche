@@ -202,7 +202,7 @@ createApp({
             const vue = this;
             var data = new FormData();
             data.append("Method", "allEventsAdmin");
-            axios.post('../../Backend/mainRoutes.php', data)
+            axios.post('../Backend/mainRoutes.php', data)
                 .then(function (r) {
                     vue.events = [];
 

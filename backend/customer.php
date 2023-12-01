@@ -275,9 +275,14 @@ class customer
 
     private function viewAppointmentQuery()
     {
-        return "SELECT appointId, appointmentdate as ad, fullname as fn, user_id as id FROM `appointments` WHERE appointmentDate > 1 and user_id = ?
-        UNION    
-        SELECT events_id, event_date as ad, event_title as fn, NULL AS id, color as cl FROM `events`; ";
+        return "SELECT appointId AS id, appointmentdate AS ad, fullname AS fn, user_id AS user_id_or_null
+        FROM `appointments`
+        WHERE appointmentDate > 1 AND user_id = ?
+        
+        UNION
+        
+        SELECT events_id, event_date, event_title, NULL AS user_id_or_null
+        FROM `events`;";
     }
 
     private function updateUserQuery()
