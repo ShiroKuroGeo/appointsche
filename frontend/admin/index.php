@@ -8,11 +8,15 @@ session_start();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Emission</title>
-    <link rel="stylesheet" href="../../assets/css/backend-plugin.min.css">
-    <link rel="stylesheet" href="../../assets/css/backend.css?v=1.0.1">
+    <!-- <link rel="stylesheet" href="../../assets/css/backend-plugin.min.css"> -->
+    <link rel="stylesheet" href="../../assets/assets/css/style2.css">
+    <link rel="stylesheet" href="../../assets/assets/css/admina.css">
+    <!-- <link rel="stylesheet" href="../../assets/css/backend.css?v=1.0.1"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/remixicon/fonts/remixicon.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    
 </head>
 
 <body class="fixed-top-navbar top-nav">
@@ -21,7 +25,107 @@ session_start();
         </div>
     </div>
     <div class="wrapper" id="admin-vue">
-        <div class="iq-top-navbar">
+        <?php include('navbar.php'); ?>
+        <div class="container-fluid page-body-wrapper">
+            <?php include('sidebar.php'); ?>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin">
+                            <div class="row">
+                                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                                    <h3 class="font-weight-bold">Welcome <?php echo $_SESSION['fullname'] ?></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin transparent">
+                            <div class="row">
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div class="card card-tale">
+                                        <div class="card-body">
+                                            <p class="mb-4">Total User Joined</p>
+                                            <p class="fs-30 mb-2">{{totalUserJoined}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div class="card card-dark-blue">
+                                        <div class="card-body">
+                                            <p class="mb-4">Total User Active</p>
+                                            <p class="fs-30 mb-2">{{totalUserActive}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div class="card card-light-blue">
+                                        <div class="card-body">
+                                            <p class="mb-4">Total Appointments Pending</p>
+                                            <p class="fs-30 mb-2">{{totalAppointJoined}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div class="card card-light-blue">
+                                        <div class="card-body">
+                                            <p class="mb-4">Total Appointments Scheduled</p>
+                                            <p class="fs-30 mb-2">{{totalAppointActive}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 stretch-card grid-margin">
+                            <div class="card p-4">
+                                <canvas id="doughnutChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-3 stretch-card grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title">Recent Users</p>
+                                    <ul class="icon-data-list">
+                                        <li v-for="r of recentUsers">
+                                            <div class="d-flex">
+                                                <img :src="'../../assets/images/' + r.profile" alt="user">
+                                                <div>
+                                                    <p class="text-info mb-1">{{r.fullname}}</p>
+                                                    <p class="mb-0">{{r.email}}</p>
+                                                    <small>{{dateToString(r.created)}}</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 stretch-card grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title">Recent Appointment</p>
+                                    <ul class="icon-data-list">
+                                        <li>
+                                            <div class="d-flex">
+                                                <img src="../../assets/images/logo.jpg" alt="user">
+                                                <div>
+                                                    <p class="text-info mb-1">Isabella Becker</p>
+                                                    <p class="mb-0">Sales dashboard have been created</p>
+                                                    <small>9:30 am</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="iq-top-navbar">
             <div class="container">
                 <div class="iq-navbar-custom">
                     <div class="d-flex align-items-center justify-content-between">
@@ -97,9 +201,6 @@ session_start();
                         </div>
                         <div class="col-lg-10 col-md-8">
                             <ul class="d-flex nav nav-pills mb-4 text-center event-tab" id="event-pills-tab" role="tablist">
-                                <!-- <li class="nav-item">
-                                    <a id="view-btn" class="nav-link active show" data-toggle="pill" href="#event1" data-extra="#search-with-button" role="tab" aria-selected="true">Vehicles Info</a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a id="view-btn" class="nav-link active show" data-toggle="pill" href="#eventU" data-extra="#search-with-button" role="tab" aria-selected="true">Users</a>
                                 </li>
@@ -166,7 +267,6 @@ session_start();
                                         </div>
                                     </div>
 
-                                    <!-- Modal -->
                                     <div class="modal fade" id="updateUser" tabindex="-1" role="dialog" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
@@ -200,7 +300,6 @@ session_start();
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Modal -->
                                 <div class="modal fade" id="date-event" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
@@ -303,7 +402,6 @@ session_start();
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Modal -->
                                 <div class="modal fade" id="date-event" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
@@ -397,7 +495,7 @@ session_start();
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  -->
     </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
@@ -446,25 +544,10 @@ session_start();
             </div>
         </div>
     </div>
-    <!-- Wrapper End-->
-    <footer class="iq-footer">
-        <div class="container-fluid container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item"><a href="../../backend/privacy-policy.html">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a href="../../backend/terms-of-service.html">Terms of Use</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 text-right">
-                    Copyright 2021 <a href="#">Calendify</a> All Rights Reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
 
-    <script src="../../assets/js/backend-bundle.min.js"></script>
-    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/jquery.js"></script>
+    <script src="../../assets/js/admin.js"></script>
+    <script src="../../assets/vendor/chart.js"></script>
     <script src="../../assets/vue/axios.js"></script>
     <script src="../../assets/vue/app.js"></script>
     <script src="../../assets/vue/admin.js"></script>

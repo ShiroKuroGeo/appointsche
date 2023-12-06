@@ -124,6 +124,20 @@ function viewAppointmentInCartAdmin()
     echo $admin->viewAppointmentInCartAdmin();
 }
 
+function recentUserAdmin()
+{
+    $admin = new admin();
+
+    echo $admin->recentUserAdmin();
+}
+
+function recentAppointmentAdmin()
+{
+    $admin = new admin();
+
+    echo $admin->recentAppointmentAdmin();
+}
+
 function updateUserAdmin()
 {
     $admin = new admin();

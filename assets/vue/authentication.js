@@ -8,6 +8,7 @@ createApp({
             email: '',
             password: '',
             confirmPassword: '',
+            checked: '',
         }
     },
     methods:{
@@ -36,7 +37,7 @@ createApp({
             data.append('email', vue.email);
             data.append('password', vue.password);
             axios.post('Backend/mainRoutes.php',data)
-            .then(function(r){  
+            .then(function(r){ 
                 if(r.data == 200){
                     window.location.href = "login.php";
                 }else{

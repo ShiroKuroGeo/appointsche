@@ -12,6 +12,16 @@ class admin
     {
         return $this->allEventsAdminFunction();
     }
+    
+    public function recentUserAdmin()
+    {
+        return $this->recentUserAdminFunction();
+    }
+    
+    public function recentAppointmentAdmin()
+    {
+        return $this->recentAppointmentAdminFunction();
+    }
 
     public function setEventSchedules($eventTitle, $eventDate)
     {
@@ -49,6 +59,23 @@ class admin
             $db = new database();
             if ($db->getStatus()) {
                 $query = $db->getCon()->prepare($this->viewAppointmentAdminQuery());
+                $query->execute();
+                $db->closeConnection();
+                return json_encode($query->fetchAll());
+            } else {
+                return 501;
+            }
+        } catch (PDOException $th) {
+            throw $th;
+        }
+    }
+
+    private function recentAppointmentAdminFunction()
+    {
+        try {
+            $db = new database();
+            if ($db->getStatus()) {
+                $query = $db->getCon()->prepare($this->recentAppointmentAdminQuery());
                 $query->execute();
                 $db->closeConnection();
                 return json_encode($query->fetchAll());
@@ -100,6 +127,23 @@ class admin
             $db = new database();
             if ($db->getStatus()) {
                 $query = $db->getCon()->prepare($this->allEventsAdminQuery());
+                $query->execute();
+                $db->closeConnection();
+                return json_encode($query->fetchAll());
+            } else {
+                return 501;
+            }
+        } catch (PDOException $th) {
+            throw $th;
+        }
+    }
+    
+    private function recentUserAdminFunction()
+    {
+        try {
+            $db = new database();
+            if ($db->getStatus()) {
+                $query = $db->getCon()->prepare($this->recentUserQuery());
                 $query->execute();
                 $db->closeConnection();
                 return json_encode($query->fetchAll());
@@ -270,5 +314,15 @@ class admin
     private function allEventsAdminQuery()
     {
         return "SELECT `events_id`, `event_title`, `event_date`, `color`, `created_at`, `updated_at` FROM `events`";
+    }
+
+    private function recentUserQuery()
+    {
+        return "SELECT * FROM `users` WHERE `role` = 1 ORDER BY `created` DESC LIMIT 5";
+    }
+
+    private function recentAppointmentAdminQuery()
+    {
+        return "SELECT * FROM `appointments` WHERE `status` = 1 ORDER BY `created_at` DESC LIMIT 5";
     }
 }

@@ -6,7 +6,7 @@ class authentication
     public function login($email, $password)
     {
         return $this->loginFunction($email, $password);
-    }
+    }   
 
     public function register($fullname, $email, $password)
     {
