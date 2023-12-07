@@ -9,6 +9,7 @@ createApp({
             password: '',
             confirmPassword: '',
             checked: '',
+            code: '',
         }
     },
     methods:{
@@ -31,19 +32,51 @@ createApp({
         },
         register:function(){
             const vue = this;
+            if(vue.password == vue.confirmPassword){
+                var data = new FormData();
+                data.append("Method","register");
+                data.append('fullname', vue.lastname +", "+ vue.fullname);
+                data.append('email', vue.email);
+                data.append('password', vue.password);
+                axios.post('Backend/mainRoutes.php',data)
+                .then(function(r){ 
+                    if(r.data == 200){
+                        window.location.href = "login.php";
+                    }else{
+                        alert('Email is already registered');
+                    }
+                });
+            }else{
+                alert('Password not match!');
+            }
+            
+        },
+        forgotPassword: function(){
+            const vue = this;
             var data = new FormData();
-            data.append("Method","register");
-            data.append('fullname', vue.lastname +", "+ vue.fullname);
+            data.append("Method","changePasswordUsingGmail");
             data.append('email', vue.email);
-            data.append('password', vue.password);
             axios.post('Backend/mainRoutes.php',data)
             .then(function(r){ 
-                if(r.data == 200){
-                    window.location.href = "login.php";
-                }else{
-                    alert('Email is already registered');
-                }
+                window.location.href = "login.php";
             });
+        },
+        changePassword: function(){
+            const vue = this;
+            if(vue.password == vue.confirmPassword){
+                var data = new FormData();
+                data.append("Method","changePasswordAuth");
+                data.append('password', vue.password);
+                data.append('code', document.getElementById('code').value);
+                axios.post('Backend/mainRoutes.php',data)
+                .then(function(r){ 
+                    if(r.data == 200){
+                        window.location.href = "login.php";
+                    }
+                });
+            }else{
+                alert('Password not match!');
+            }
         }
     },
     created:function(){

@@ -16,6 +16,20 @@ function login()
     echo $auth->login($_POST["email"], $_POST["password"]);
 }
 
+function changePasswordUsingGmail()
+{
+    $auth = new authentication();
+
+    echo $auth->changePasswordUsingGmail($_POST["email"]);
+}
+
+function changePasswordAuth()
+{
+    $auth = new authentication();
+
+    echo $auth->changePasswordAuth($_POST["password"],$_POST["code"]);
+}
+
 function register()
 {
     $auth = new authentication();

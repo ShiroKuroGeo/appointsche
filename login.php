@@ -48,7 +48,7 @@
                                                 Keep me signed in
                                             </label>
                                         </div>
-                                        <a href="#" class="auth-link text-black">Forgot password?</a>
+                                        <a href="forgotPassword.php" class="auth-link text-black">Forgot password?</a>
                                     </div>
                                     <div class="text-center mt-4 fw-light">
                                         Don't have an account? <a href="register.php" class="text-primary">Create</a>

@@ -53,11 +53,13 @@ session_start();
                                 <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
                                     <li class="">
                                         <a href="index.php" class="">
+                                            <i class="fa fa-tachometer" aria-hidden="true"></i>
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
                                     <li class="active">
                                         <a href="schedule.php" class="">
+                                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                             <span>Appointments</span>
                                         </a>
                                     </li>
@@ -107,15 +109,7 @@ session_start();
         <div class="content-page">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 mb-4">
-                        <div class="py-4 border-bottom">
-                            <div class="form-title text-center">
-                                <h3>My Schedule</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <h4 class="mb-3">Choose A Schedule Below</h4>
+                    <div class="col-lg-12 mt-4">
                         <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-3">
                             <div class="d-flex align-items-center justify-content-between">
                             </div>
@@ -123,7 +117,6 @@ session_start();
                                 <a href="#" data-toggle="modal" data-target="#date-event" class="btn btn-primary pr-5 position-relative">Request Appointment<span class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></span></a>
                             </div>
                         </div>
-                        <h4 class="mb-3">Set Your weekly hours</h4>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card card-block card-stretch">
@@ -255,11 +248,10 @@ session_start();
                 <div class="col-lg-6">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-6 text-right">
-                    Copyright 2021 <a href="#">Calendify</a> All Rights Reserved.
+                    Copyright 2023 <a href="#">Emission</a> All Rights Reserved.
                 </div>
             </div>
         </div>

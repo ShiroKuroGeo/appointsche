@@ -44,14 +44,16 @@ session_start();
                                 <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
                                     <li class="active">
                                         <a href="index.php" class="">
+                                            <i class="fa fa-tachometer" aria-hidden="true"></i>
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
                                     <li class="">
                                         <a href="schedule.php" class="">
+                                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                             <span>Appointments</span>
                                         </a>
-                                    </li>
+                                    </li>   
                                 </ul>
                             </nav>
                         </div>
