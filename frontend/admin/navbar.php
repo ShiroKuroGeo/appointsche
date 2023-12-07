@@ -13,10 +13,6 @@
                     <img src="../../assets/images/<?php echo $_SESSION['profile'] ?>" class="avatar-40 img-fluid rounded" alt="user">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
-                        <i class="ti-settings text-primary"></i>
-                        Settings
-                    </a>
                     <a class="dropdown-item" href="../../assets/vue/logout.php">
                         <i class="ti-power-off text-primary"></i>
                         Logout

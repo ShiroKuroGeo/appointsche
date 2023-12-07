@@ -138,6 +138,13 @@ function recentAppointmentAdmin()
     echo $admin->recentAppointmentAdmin();
 }
 
+function recentAppointmentActiveAdmin()
+{
+    $admin = new admin();
+
+    echo $admin->recentAppointmentActiveAdmin();
+}
+
 function updateUserAdmin()
 {
     $admin = new admin();

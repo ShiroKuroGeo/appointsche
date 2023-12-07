@@ -15,12 +15,13 @@ createApp({
       dateAppointment: "",
       messageAppointment: "",
       searchFromAUsers: "",
+      SearchAppointment: "",
       eventTitle: "",
-      eventDate: "",
+      eventDate: null,
       gmail: "",
       totalUserJoined: 0,
       totalUserActive: 0,
-      totalAppointJoined: 0,
+      totalAppointPending: 0,
       totalAppointActive: 0,
     };
   },
@@ -239,10 +240,16 @@ createApp({
       data.append("appId", id);
       data.append("gmail", gmail);
       axios.post("../../Backend/mainRoutes.php", data).then(function (r) {
-        alert("Approved Appointment");
+        this.viewAppointmentInCartAdmin();
       });
     },
     approveAll() {
+      for (let i = 0; i < this.selectedAppointments.length; i++) {
+        this.approveAppointment(this.selectedAppointments[i], this.gmail);
+        this.viewAppointmentInCartAdmin();
+      }
+    },
+    approveAllIds() {
       for (let i = 0; i < this.allAppointmentIdS.length; i++) {
         this.approveAppointment(this.allAppointmentIdS[i], this.gmail);
         this.viewAppointmentInCartAdmin();
@@ -250,17 +257,23 @@ createApp({
     },
     setEventSchedule() {
       const vue = this;
-      var data = new FormData();
-      data.append("Method", "setEventSchedules");
-      data.append("eventTitle", vue.eventTitle);
-      data.append("eventDate", vue.eventDate);
-      axios.post("../../Backend/mainRoutes.php", data).then(function (r) {
-        if (r.data == 200) {
-          alert("Events Added!");
-        } else {
-          alert(r.data);
-        }
-      });
+      if (!vue.eventDate) {
+        alert("No Date");
+      } else if (!vue.eventTitle) {
+        alert("No Title");
+      } else {
+        var data = new FormData();
+        data.append("Method", "setEventSchedules");
+        data.append("eventTitle", vue.eventTitle);
+        data.append("eventDate", vue.eventDate);
+        axios.post("../../Backend/mainRoutes.php", data).then(function (r) {
+          if (r.data == 200) {
+            alert("Events Added!");
+          } else {
+            alert(r.data);
+          }
+        });
+      }
     },
     recentUserAdmin() {
       const vue = this;
@@ -284,12 +297,15 @@ createApp({
       var data = new FormData();
       data.append("Method", "recentAppointmentAdmin");
       axios.post("../../Backend/mainRoutes.php", data).then(function (r) {
-        vue.totalAppointJoined = r.data.length;
-        for (var v of r.data) {
-          if (v.status == 2) {
-            vue.totalAppointActive = r.data.length;
-          }
-        }
+        vue.totalAppointPending = r.data.length;
+      });
+    },
+    totalAppointActives() {
+      const vue = this;
+      var data = new FormData();
+      data.append("Method", "recentAppointmentActiveAdmin");
+      axios.post("../../Backend/mainRoutes.php", data).then(function (r) {
+        vue.totalAppointActive = r.data.length;
       });
     },
     chartDoughnot() {
@@ -297,10 +313,9 @@ createApp({
       var data = new FormData();
       data.append("Method", "allUsersAdmin");
       axios.post("../../Backend/mainRoutes.php", data).then(function (r) {
-        const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-        const yValues = [55, 49, 44, 24, 15];
+        const xValues = ["Total User", "Active User", "Pending Appointments", "Approved Appointment"];
+        const yValues = [vue.totalUserJoined, vue.totalUserActive, vue.totalAppointPending, vue.totalAppointActive];
         const barColors = [
-          "#b91d47",
           "#00aba9",
           "#2b5797",
           "#e8c3b9",
@@ -363,6 +378,7 @@ createApp({
     this.viewAppointmentInCartAdmin();
     this.allEventsAdmin();
     this.recentAppointmentAdmin();
+    this.totalAppointActives();
     this.chartDoughnot();
   },
 }).mount("#admin-vue");

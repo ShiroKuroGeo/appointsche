@@ -10,12 +10,12 @@ session_start();
     <title>Emission</title>
     <!-- <link rel="stylesheet" href="../../assets/css/backend-plugin.min.css"> -->
     <link rel="stylesheet" href="../../assets/assets/css/style2.css">
-    <link rel="stylesheet" href="../../assets/assets/css/admina.css">
+    <link rel="stylesheet" href="../../assets/assets/css/admin.css">
     <!-- <link rel="stylesheet" href="../../assets/css/backend.css?v=1.0.1"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/remixicon/fonts/remixicon.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     
 </head>
 
@@ -51,7 +51,7 @@ session_start();
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-4 stretch-card transparent">
-                                    <div class="card card-dark-blue">
+                                    <div class="card card-tale">
                                         <div class="card-body">
                                             <p class="mb-4">Total User Active</p>
                                             <p class="fs-30 mb-2">{{totalUserActive}}</p>
@@ -59,15 +59,15 @@ session_start();
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-4 stretch-card transparent">
-                                    <div class="card card-light-blue">
+                                    <div class="card card-tale">
                                         <div class="card-body">
                                             <p class="mb-4">Total Appointments Pending</p>
-                                            <p class="fs-30 mb-2">{{totalAppointJoined}}</p>
+                                            <p class="fs-30 mb-2">{{totalAppointPending}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-4 stretch-card transparent">
-                                    <div class="card card-light-blue">
+                                    <div class="card card-tale">
                                         <div class="card-body">
                                             <p class="mb-4">Total Appointments Scheduled</p>
                                             <p class="fs-30 mb-2">{{totalAppointActive}}</p>
@@ -85,7 +85,7 @@ session_start();
                         </div>
                         <div class="col-md-3 stretch-card grid-margin">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body ">
                                     <p class="card-title">Recent Users</p>
                                     <ul class="icon-data-list">
                                         <li v-for="r of recentUsers">

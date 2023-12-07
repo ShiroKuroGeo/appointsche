@@ -10,7 +10,7 @@ session_start();
     <title>Emission</title>
     <!-- <link rel="stylesheet" href="../../assets/css/backend-plugin.min.css"> -->
     <link rel="stylesheet" href="../../assets/assets/css/style2.css">
-    <link rel="stylesheet" href="../../assets/assets/css/admina.css">
+    <link rel="stylesheet" href="../../assets/assets/css/admin.css">
     <!-- <link rel="stylesheet" href="../../assets/css/backend.css?v=1.0.1"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">

@@ -15686,6 +15686,10 @@
     vertical-align: text-top !important;
   }
   
+  .bg-primary-color{
+    background-color: #96B2FB !important;
+  }
+
   .bg-primary, .settings-panel .color-tiles .tiles.primary {
     background-color: #4B49AC !important;
   }

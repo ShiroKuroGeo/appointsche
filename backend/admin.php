@@ -38,6 +38,11 @@ class admin
         return $this->allUsersAdminFunction();
     }
 
+    public function recentAppointmentActiveAdmin()
+    {
+        return $this->recentAppointmentActiveAdminFunction();
+    }
+
     public function updateUserAdmin($status, $userid)
     {
         return $this->updateUserAdminFunction($status, $userid);
@@ -76,6 +81,23 @@ class admin
             $db = new database();
             if ($db->getStatus()) {
                 $query = $db->getCon()->prepare($this->recentAppointmentAdminQuery());
+                $query->execute();
+                $db->closeConnection();
+                return json_encode($query->fetchAll());
+            } else {
+                return 501;
+            }
+        } catch (PDOException $th) {
+            throw $th;
+        }
+    }
+
+    private function recentAppointmentActiveAdminFunction()
+    {
+        try {
+            $db = new database();
+            if ($db->getStatus()) {
+                $query = $db->getCon()->prepare($this->recentAppointmentActiveAdminQuery());
                 $query->execute();
                 $db->closeConnection();
                 return json_encode($query->fetchAll());
@@ -323,6 +345,11 @@ class admin
 
     private function recentAppointmentAdminQuery()
     {
-        return "SELECT * FROM `appointments` WHERE `status` = 1 ORDER BY `created_at` DESC LIMIT 5";
+        return "SELECT * FROM `appointments` WHERE `status` != 1";
+    }
+
+    private function recentAppointmentActiveAdminQuery()
+    {
+        return "SELECT * FROM `appointments` WHERE `status` = 1";
     }
 }
