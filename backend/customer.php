@@ -12,6 +12,16 @@ class customer
         return $this->allVehicleFunction($user_id);
     }
 
+    public function totalPendingAppointments($user_id)
+    {
+        return $this->totalPendingAppointmentsFunction($user_id);
+    }
+
+    public function useviewAllAppointment($user_id)
+    {
+        return $this->useviewAllAppointmentFunction($user_id);
+    }
+
     public function updateUser($user_id, $profile, $fullname)
     {
         return $this->updateUserFunction($user_id, $profile, $fullname);
@@ -47,6 +57,11 @@ class customer
         return $this->userFunction($user_id);
     }
 
+    public function appointmentsCard($user_id)
+    {
+        return $this->appointmentsCardFunction($user_id);
+    }
+
     private function storeVehicleFunction($user_id, $seriesNumber, $model, $year, $licPlaNum)
     {
         try {
@@ -74,6 +89,22 @@ class customer
             $database = new database();
             if ($database->getStatus()) {
                 $query = $database->getCon()->prepare($this->allVehicleQuery());
+                $query->execute(array($user_id));
+                return json_encode($query->fetchAll());
+            } else {
+                return 501;
+            }
+        } catch (PDOException $th) {
+            throw $th;
+        }
+    }
+
+    private function totalPendingAppointmentsFunction($user_id)
+    {
+        try {
+            $database = new database();
+            if ($database->getStatus()) {
+                $query = $database->getCon()->prepare($this->totalPendingAppointmentsQuery());
                 $query->execute(array($user_id));
                 return json_encode($query->fetchAll());
             } else {
@@ -116,6 +147,38 @@ class customer
         }
     }
 
+    private function useviewAllAppointmentFunction($user_id)
+    {
+        try {
+            $database = new database();
+            if ($database->getStatus()) {
+                $query = $database->getCon()->prepare($this->viewAllAppointmentQuery());
+                $query->execute(array($user_id));
+                return json_encode($query->fetchAll());
+            } else {
+                return 501;
+            }
+        } catch (PDOException $th) {
+            throw $th;
+        }
+    }
+
+    private function appointmentsCardFunction($user_id)
+    {
+        try {
+            $database = new database();
+            if ($database->getStatus()) {
+                $query = $database->getCon()->prepare($this->appointmentsCardQuery());
+                $query->execute(array($user_id));
+                return json_encode($query->fetchAll());
+            } else {
+                return 501;
+            }
+        } catch (PDOException $th) {
+            throw $th;
+        }
+    }
+
     private function deleteVehicleFunction($vehicleId)
     {
         try {
@@ -142,7 +205,7 @@ class customer
         try {
             $database = new database();
             if ($database->getStatus()) {
-                $query = $database->getCon()->prepare($this->deleteVehicleQuery());
+                $query = $database->getCon()->prepare($this->updateVehicleQuery());
                 $query->execute(array($updateSnumber, $updatemodel, $updateyear, $updatelicPlaNum, $vehicleId));
                 $database->closeConnection();
                 if (!$query->fetch()) {
@@ -263,31 +326,43 @@ class customer
         return "SELECT * FROM `vehicle` WHERE `user_id` = ? ORDER BY created DESC";
     }
 
-    private function deleteVehicleQuery()
+    private function updateVehicleQuery()
     {
         return "UPDATE `vehicle` SET `seriesNumber`= ? ,`model`= ? , `year`= ?, `licPlaNum`= ?  WHERE `vehicle_id` = ?";
+    }
+
+    private function deleteVehicleQuery()
+    {
+        return "DELETE FROM `vehicle` WHERE `vehicle_id` = ?";
     }
 
     private function sendAppointmentQuery()
     {
         return "INSERT INTO `appointments`(`user_id`, `fullname`, `email`, `orNumber`, `wheel`, `engineNumber`, `seriesModel`, `yearModel`, `appointmentDate`, `appointCR`) VALUES (?,?,?,?,?,?,?,?,?,?)";
     }
-
+    
+    private function viewAllAppointmentQuery(){
+        return "SELECT * FROM `appointments` WHERE user_id = ?";
+    }
+    
     private function viewAppointmentQuery()
     {
-        return "SELECT appointId AS id, appointmentdate AS ad, fullname AS fn, user_id AS user_id_or_null
-        FROM `appointments`
-        WHERE appointmentDate > 1 AND user_id = ?
-        
+        return "SELECT appointId, appointmentdate as ad, fullname as fn, user_id as id, color as cl FROM `appointments` WHERE appointmentDate > 1 AND user_id = ?
         UNION
-        
-        SELECT events_id, event_date, event_title, NULL AS user_id_or_null
-        FROM `events`;";
+        SELECT events_id, event_date as ad, event_title as fn, NULL AS id, color as cl FROM `events`";
     }
+
+
+
+
 
     private function updateUserQuery()
     {
         return "UPDATE `users` SET `profile` = ?, `fullname`= ? WHERE `user_id` = ?";
+    }
+
+    private function totalPendingAppointmentsQuery(){
+        return "SELECT * FROM `appointments` WHERE `status` = 0 AND `user_id` = ?";
     }
 
     private function changePasswordQuery()
@@ -298,5 +373,10 @@ class customer
     private function confirmPasswordQuery()
     {
         return "SELECT `password` as pass FROM `users` WHERE password = ? AND user_id = ?";
+    }
+
+    private function appointmentsCardQuery()
+    {
+        return "SELECT * FROM `appointments` WHERE `status` = 1 AND `user_id` = ? ORDER BY `appointmentDate` DESC LIMIT 1";
     }
 }

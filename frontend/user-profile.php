@@ -1,4 +1,261 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+<?php session_start() ?>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emission</title>
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/em.css">
+    <link rel='stylesheet' href='../assets/vendor/fullcalendar/core/main.css' />
+    <link rel='stylesheet' href='../assets/vendor/fullcalendar/daygrid/main.css' />
+    <link rel='stylesheet' href='../assets/vendor/fullcalendar/timegrid/main.css' />
+    <link rel='stylesheet' href='../assets/vendor/fullcalendar/list/main.css' />
+</head>
+
+<body class="bg-white overflow-hidden">
+    <nav class="navbar navbar-expand-lg navbar-dark is-navbar-dark w-100">
+        <div class="container px-0">
+            <a class="navbar-brand" href="./index.html"><img src="../assets/images/logo.jpg" style="width: 50px;" alt="geeks UI logo" /></a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar top-bar mt-0"></span>
+                <span class="icon-bar middle-bar"></span>
+                <span class="icon-bar bottom-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-default">
+                <ul class="navbar-nav">
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="index.php">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="dashboard.php">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="schedule.php">
+                            Schedule
+                        </a>
+                    </li>
+                </ul>
+                <div class="ms-auto mt-lg-0">
+                    <li class="dropdown ms-2">
+                        <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar avatar-md">
+                                <img alt="avatar" src="../assets/images/<?php echo $_SESSION['profile'] ?>" class="rounded-circle" />
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+                            <div class="dropdown-item">
+                                <a href="user-profile.php" class="d-flex">
+                                    <div class="avatar avatar-md">
+                                        <img alt="avatar" src="../assets/images/<?php echo $_SESSION['profile'] ?>" class="rounded-circle" />
+                                    </div>
+                                    <div class="ms-3 lh-1">
+                                        <h5 class="mb-1 mt-2"><?php echo $_SESSION['fullname'] ?></h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a class="dropdown-item" href="../assets/vue/logout.php">
+                                        <i class="fa fa-sign-in me-2"></i>Sign Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-5 bg-primary-color" id="customer-vue">
+        <div class="container">
+            <div class="main-body" v-for="u of users">
+
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <img :src="'../assets/images/' + u.profile" alt="Admin" class="rounded-circle" width="150" height="150">
+                                    <div class="mt-3">
+                                        <h4>{{u.fullname}}</h4>
+                                        <p class="text-secondary mb-1">{{u.email}}</p>
+                                        <p class="text-muted mb-1">{{dateToString(u.created)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0">Information</h6>
+                                    <button @click="showInformation" class="btn btn-sm btn-link text-primary col-5 text-decoration-none">
+                                        View Information
+                                    </button>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0">Change Password</h6>
+                                    <button @click="showChangePassword" class="btn btn-sm btn-link text-primary col-5 text-decoration-none">
+                                        Change Password
+                                    </button>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0">Change Information</h6>
+                                    <button @click="showChangeInformation" class="btn btn-sm btn-link text-primary col-5 text-decoration-none">
+                                        Change Information
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="information" class="col-md-8">
+                        <div class="card mb-3 ">
+                            <div class="card-body" >
+                                <h3 class="mb-6 text-capitalize text-primary fw-bold">user information</h3>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Full Name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{u.fullname}}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{u.email}}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Type</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        Customer
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="changePassword" class="visually-hidden col-md-8">
+                        <div class="card mb-3 ">
+                            <div class="card-body">
+                                <h3 class="mb-6 text-capitalize text-primary fw-bold">change password</h3>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="form-label" for="schedule-start-date">Old Password</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control col-12" type="password" id="oldPassword" placeholder="Enter Old Password" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+
+                                        <label class="form-label" for="schedule-start-date">New Password</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control col-12" type="password" id="newPassword" placeholder="Enter New Password" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="form-label" for="schedule-start-date">Retype New Password</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input class="form-control col-12" type="password" id="renewPassword" placeholder="Enter Confirm Password" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12 text-secondary">
+                                        <button class="btn btn-primary btn-md px-5 float-end" type="submit" @click="changePassword">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="changeInformation" class="visually-hidden col-md-8">
+                        <div class="card mb-3  text-white">
+                            <div class="card-body">
+                                <h3 class="mb-6 text-capitalize fw-bold">change information</h3>
+                                <div class="row">
+                                    <label class="form-label" for="schedule-start-date">Profile Picture</label><br>
+                                    <i class="fa fa-camera-retro fa-5x" style="cursor: pointer; color: black" aria-hidden="true" onclick="document.getElementById('updateProfile').click()"></i>
+                                    <input style="visibility: hidden;" type="file" name="profile" id="updateProfile" required />
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <label class="form-label" for="schedule-start-date">Fullname</label>
+                                    <input class="form-control " type="text" :value="u.fullname" id="updateFullname" required />
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12 text-secondary">
+                                        <button class="btn btn-outline-primary" type="submit" @click="updateUser(u.user_id)" onclick="document.getElementById('cancels').click()">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer pt-8 py-8 bg-primary-color">
+        <div class="container">
+            <div class="row ">
+                <div class="offset-lg-2 col-lg-8 col-md-12 col-12">
+                    <div class="row">
+                        <div class="col-md-6 col-12 text-center text-md-start">
+                            <span> <span>© <span id="copyright">
+                                        <script>
+                                            document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                                        </script>
+                                    </span> Testing. Design and Coded by </span><span class="text-primary">Emission Team</span>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <nav class="nav nav-footer justify-content-center justify-content-md-end">
+                                <a class="nav-link active ps-0 " href="#" target="_blank">Documentation</a>
+                                <a class="nav-link " href="#" target="_blank">Support </a>
+                                <a class="nav-link " href="#" target="_blank">Changelog</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+<script src='../assets/vendor/fullcalendar/core/main.js'></script>
+<script src='../assets/vendor/fullcalendar/daygrid/main.js'></script>
+<script src='../assets/vendor/fullcalendar/timegrid/main.js'></script>
+<script src='../assets/vendor/fullcalendar/list/main.js'></script>
+<script src='../assets/vendor/fullcalendar/interaction/main.js'></script>
+<script src="../assets/js/popper.js"></script>
+<script src="../assets/js/theme.js"></script>
+<script src="../assets/vue/axios.js"></script>
+<script src="../assets/vue/app.js"></script>
+<script src="../assets/vue/customer.js"></script>
+
+</html>
+<!-- <!doctype html>
 <html lang="en">
 <?php
 session_start();
@@ -13,396 +270,6 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
     <link rel="stylesheet" href="../assets/vendor/remixicon/fonts/remixicon.css">
-    <style>
-        body {
-            color: #797979;
-            background: #f1f2f7;
-            font-family: 'Open Sans', sans-serif;
-            padding: 0px !important;
-            margin: 0px !important;
-            font-size: 13px;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-font-smoothing: antialiased;
-        }
-
-        .profile-nav,
-        .profile-info {
-            margin-top: 30px;
-        }
-
-        .profile-nav .user-heading {
-            background: #fbc02d;
-            color: #fff;
-            border-radius: 4px 4px 0 0;
-            -webkit-border-radius: 4px 4px 0 0;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .profile-nav .user-heading.round a {
-            border-radius: 50%;
-            -webkit-border-radius: 50%;
-            border: 10px solid rgba(255, 255, 255, 0.3);
-            display: inline-block;
-        }
-
-        .profile-nav .user-heading a img {
-            width: 112px;
-            height: 112px;
-            border-radius: 50%;
-            -webkit-border-radius: 50%;
-        }
-
-        .profile-nav .user-heading h1 {
-            font-size: 22px;
-            font-weight: 300;
-            margin-bottom: 5px;
-        }
-
-        .profile-nav .user-heading p {
-            font-size: 12px;
-        }
-
-        .profile-nav ul {
-            margin-top: 1px;
-        }
-
-        .profile-nav ul>li {
-            border-bottom: 1px solid #ebeae6;
-            margin-top: 0;
-            line-height: 30px;
-        }
-
-        .profile-nav ul>li:last-child {
-            border-bottom: none;
-        }
-
-        .profile-nav ul>li>a {
-            border-radius: 0;
-            -webkit-border-radius: 0;
-            color: #89817f;
-            border-left: 5px solid #fff;
-        }
-
-        .profile-nav ul>li>a:hover,
-        .profile-nav ul>li>a:focus,
-        .profile-nav ul li.active a {
-            background: #f8f7f5 !important;
-            border-left: 5px solid #fbc02d;
-            color: #89817f !important;
-        }
-
-        .profile-nav ul>li:last-child>a:last-child {
-            border-radius: 0 0 4px 4px;
-            -webkit-border-radius: 0 0 4px 4px;
-        }
-
-        .profile-nav ul>li>a>i {
-            font-size: 16px;
-            padding-right: 10px;
-            color: #bcb3aa;
-        }
-
-        .r-activity {
-            margin: 6px 0 0;
-            font-size: 12px;
-        }
-
-
-        .p-text-area,
-        .p-text-area:focus {
-            border: none;
-            font-weight: 300;
-            box-shadow: none;
-            color: #c3c3c3;
-            font-size: 16px;
-        }
-
-        .profile-info .panel-footer {
-            background-color: #f8f7f5;
-            border-top: 1px solid #e7ebee;
-        }
-
-        .profile-info .panel-footer ul li a {
-            color: #7a7a7a;
-        }
-
-        .bio-graph-heading {
-            background: #fbc02d;
-            color: #fff;
-            text-align: center;
-            font-style: italic;
-            padding: 40px 110px;
-            border-radius: 4px 4px 0 0;
-            -webkit-border-radius: 4px 4px 0 0;
-            font-size: 16px;
-            font-weight: 300;
-        }
-
-        .bio-graph-info {
-            color: #89817e;
-        }
-
-        .bio-graph-info h1 {
-            font-size: 22px;
-            font-weight: 300;
-            margin: 0 0 20px;
-        }
-
-        .bio-row {
-            width: 50%;
-            float: left;
-            margin-bottom: 10px;
-            padding: 0 15px;
-        }
-
-        .bio-row p span {
-            width: 100px;
-            display: inline-block;
-        }
-
-        .bio-chart,
-        .bio-desk {
-            float: left;
-        }
-
-        .bio-chart {
-            width: 40%;
-        }
-
-        .bio-desk {
-            width: 60%;
-        }
-
-        .bio-desk h4 {
-            font-size: 15px;
-            font-weight: 400;
-        }
-
-        .bio-desk h4.terques {
-            color: #4CC5CD;
-        }
-
-        .bio-desk h4.red {
-            color: #e26b7f;
-        }
-
-        .bio-desk h4.green {
-            color: #97be4b;
-        }
-
-        .bio-desk h4.purple {
-            color: #caa3da;
-        }
-
-        .file-pos {
-            margin: 6px 0 10px 0;
-        }
-
-        .profile-activity h5 {
-            font-weight: 300;
-            margin-top: 0;
-            color: #c3c3c3;
-        }
-
-        .summary-head {
-            background: #ee7272;
-            color: #fff;
-            text-align: center;
-            border-bottom: 1px solid #ee7272;
-        }
-
-        .summary-head h4 {
-            font-weight: 300;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .summary-head p {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        ul.summary-list {
-            display: inline-block;
-            padding-left: 0;
-            width: 100%;
-            margin-bottom: 0;
-        }
-
-        ul.summary-list>li {
-            display: inline-block;
-            width: 19.5%;
-            text-align: center;
-        }
-
-        ul.summary-list>li>a>i {
-            display: block;
-            font-size: 18px;
-            padding-bottom: 5px;
-        }
-
-        ul.summary-list>li>a {
-            padding: 10px 0;
-            display: inline-block;
-            color: #818181;
-        }
-
-        ul.summary-list>li {
-            border-right: 1px solid #eaeaea;
-        }
-
-        ul.summary-list>li:last-child {
-            border-right: none;
-        }
-
-        .activity {
-            width: 100%;
-            float: left;
-            margin-bottom: 10px;
-        }
-
-        .activity.alt {
-            width: 100%;
-            float: right;
-            margin-bottom: 10px;
-        }
-
-        .activity span {
-            float: left;
-        }
-
-        .activity.alt span {
-            float: right;
-        }
-
-        .activity span,
-        .activity.alt span {
-            width: 45px;
-            height: 45px;
-            line-height: 45px;
-            border-radius: 50%;
-            -webkit-border-radius: 50%;
-            background: #eee;
-            text-align: center;
-            color: #fff;
-            font-size: 16px;
-        }
-
-        .activity.terques span {
-            background: #8dd7d6;
-        }
-
-        .activity.terques h4 {
-            color: #8dd7d6;
-        }
-
-        .activity.purple span {
-            background: #b984dc;
-        }
-
-        .activity.purple h4 {
-            color: #b984dc;
-        }
-
-        .activity.blue span {
-            background: #90b4e6;
-        }
-
-        .activity.blue h4 {
-            color: #90b4e6;
-        }
-
-        .activity.green span {
-            background: #aec785;
-        }
-
-        .activity.green h4 {
-            color: #aec785;
-        }
-
-        .activity h4 {
-            margin-top: 0;
-            font-size: 16px;
-        }
-
-        .activity p {
-            margin-bottom: 0;
-            font-size: 13px;
-        }
-
-        .activity .activity-desk i,
-        .activity.alt .activity-desk i {
-            float: left;
-            font-size: 18px;
-            margin-right: 10px;
-            color: #bebebe;
-        }
-
-        .activity .activity-desk {
-            margin-left: 70px;
-            position: relative;
-        }
-
-        .activity.alt .activity-desk {
-            margin-right: 70px;
-            position: relative;
-        }
-
-        .activity.alt .activity-desk .panel {
-            float: right;
-            position: relative;
-        }
-
-        .activity-desk .panel {
-            background: #F4F4F4;
-            display: inline-block;
-        }
-
-
-        .activity .activity-desk .arrow {
-            border-right: 8px solid #F4F4F4 !important;
-        }
-
-        .activity .activity-desk .arrow {
-            border-bottom: 8px solid transparent;
-            border-top: 8px solid transparent;
-            display: block;
-            height: 0;
-            left: -7px;
-            position: absolute;
-            top: 13px;
-            width: 0;
-        }
-
-        .activity-desk .arrow-alt {
-            border-left: 8px solid #F4F4F4 !important;
-        }
-
-        .activity-desk .arrow-alt {
-            border-bottom: 8px solid transparent;
-            border-top: 8px solid transparent;
-            display: block;
-            height: 0;
-            right: -7px;
-            position: absolute;
-            top: 13px;
-            width: 0;
-        }
-
-        .activity-desk .album {
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .activity-desk .album a {
-            margin-right: 10px;
-        }
-
-        .activity-desk .album a:last-child {
-            margin-right: 0px;
-        }
-    </style>
 </head>
 
 <body class="fixed-top-navbar" id="customer-vue">
@@ -661,4 +528,4 @@ session_start();
     <script src="../assets/vue/customer.js"></script>
 </body>
 
-</html>
+</html> -->

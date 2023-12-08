@@ -23,46 +23,45 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar-default">
                 <ul class="navbar-nav">
-                    <li class="nav-item me-3">
-                        <a class="nav-link" href="index.php">
+                    <li class="nav-item me-3 active">
+                        <a class="nav-link active" href="index.php">
                             Home
                         </a>
                     </li>
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="https://geeksui.codescandy.com/geeks/pages/dashboard/admin-dashboard.html">
-                            Appointment
+                        <a class="nav-link" href="dashboard.php">
+                            Dashboard
                         </a>
                     </li>
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="https://geeksui.codescandy.com/geeks/pages/dashboard/admin-dashboard.html">
+                        <a class="nav-link" href="schedule.php">
                             Schedule
                         </a>
                     </li>
                 </ul>
                 <div class="ms-auto mt-lg-0">
                     <li class="dropdown ms-2">
-                        <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="rounded-circle" href="user-profile.php" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="avatar avatar-md">
                                 <img alt="avatar" src="../assets/images/<?php echo $_SESSION['profile'] ?>" class="rounded-circle" />
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                             <div class="dropdown-item">
-                                <div class="d-flex">
+                                <a href="user-profile.php" class="d-flex">
                                     <div class="avatar avatar-md">
                                         <img alt="avatar" src="../assets/images/<?php echo $_SESSION['profile'] ?>" class="rounded-circle" />
                                     </div>
                                     <div class="ms-3 lh-1">
                                         <h5 class="mb-1 mt-2"><?php echo $_SESSION['fullname'] ?></h5>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             <div class="dropdown-divider"></div>
                             <ul class="list-unstyled">
                                 <li>
                                     <a class="dropdown-item" href="../assets/vue/logout.php">
-                                        <i class="fa fa-sign-in me-2"></i>
-                                        Sign Out
+                                        <i class="fa fa-sign-in me-2"></i>Sign Out
                                     </a>
                                 </li>
                             </ul>
@@ -72,25 +71,91 @@
             </div>
         </div>
     </nav>
-    <main class="mt-5">
-        <section class="py-lg-12 my-5 py-5">
+    <main class="pt-5 bg-light" id="customer-vue">
+        <section class="py-lg-12">
             <div class="hero-img py-5">
                 <div class="container px-4 px-lg-0 ">
                     <div class="row align-items-center">
                         <div class=" col-xl-5 col-md-12 py-6 py-xl-0">
                             <div class="mb-4 text-center text-xl-start px-md-8 px-lg-19 px-xl-0">
-                                <h1 class="display-3 fw-bold mb-3 ls-sm ">
+                                <h1 class="display-3 fw-bold mb-3 ls-sm pt-4">
                                     <span class="text-primary text-capitalize">emissions </span><span>Vehicle inspection</span>
                                 </h1>
                                 <p class="mb-6 lead pe-lg-6">
                                     A smog check is a vehicle emissions inspection that tests a car’s exhaust system to ensure it meets specific environmental standards. This test is required in some states, but not all. Pollution can contribute to respiratory problems and other health concerns.
                                 </p>
                             </div>
-                            <a href="https://bit.ly/geeksui" class="btn btn-dark" target="_blank" title="Buy Geeks"><i class="bi bi-cart-check-fill me-2"></i>Send Appointment</a>
+                            <button type="button" class="btn btn-dark col-7" data-bs-toggle="modal" data-bs-target="#date-event">Send Appointment</button>
                         </div>
                         <div class="offset-xl-1 col-xl-6 col-md-12 d-flex justify-content-end ">
                             <div class="">
                                 <img src="../assets/images/emission.jpg" width="700" class="img-fluid rounded-3 smooth-shadow-md" alt="">
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="date-event" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body col-12">
+                                        <div class="modal-body">
+                                            <div class="popup text-left">
+                                                <h4 class="mb-3">Request Appointment</h4>
+                                                <div class="form">
+                                                    <div class="content create-workform row">
+                                                        <div class="col-12 row">
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Fullname</label>
+                                                                <input class="form-control" type="text" v-model="fullname" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Email</label>
+                                                                <input class="form-control" type="email" v-model="email" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 row">
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">OR Number</label>
+                                                                <input class="form-control" type="text" v-model="ORNumber" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Certificate of Registration</label>
+                                                                <input class="form-control" type="text" v-model="Certificate" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">wheel</label>
+                                                                <input class="form-control" type="text" v-model="wheel" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Engine Number</label>
+                                                                <input class="form-control" type="text" v-model="engineNumber" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Series Model</label>
+                                                                <input class="form-control" type="text" v-model="seriesModel" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Year Model</label>
+                                                                <input class="form-control" type="text" v-model="yearModel" />
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="form-label" for="schedule-title">Year Model</label>
+                                                                <input class="form-control col-12" type="datetime-local" v-model="dateAppointment" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-outline-primary" @click="sendAppointment" onclick="document.getElementById('cancel').click()">Save</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,7 +216,7 @@
             </div>
         </section>
     </main>
-    <footer class="footer pt-8 pb-4">
+    <footer class="footer pt-8 pb-4 bg-light">
         <div class="container">
             <div class="row ">
                 <div class="offset-lg-2 col-lg-8 col-md-12 col-12">
@@ -180,7 +245,11 @@
     </footer>
 
 </body>
+
 <script src="../assets/js/popper.js"></script>
 <script src="../assets/js/theme.js"></script>
+<script src="../assets/vue/axios.js"></script>
+<script src="../assets/vue/app.js"></script>
+<script src="../assets/vue/customer.js"></script>
 
 </html>

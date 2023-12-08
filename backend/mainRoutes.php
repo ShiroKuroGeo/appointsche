@@ -51,6 +51,13 @@ function allVehicle()
     echo $customer->allVehicle($_SESSION["user_id"]);
 }
 
+function totalPendingAppointments()
+{
+    $customer = new customer();
+
+    echo $customer->totalPendingAppointments($_SESSION["user_id"]);
+}
+
 function viewAppointment()
 {
     $customer = new customer();
@@ -63,6 +70,20 @@ function user()
     $customer = new customer();
 
     echo $customer->user($_SESSION["user_id"]);
+}
+
+function useviewAllAppointment()
+{
+    $customer = new customer();
+
+    echo $customer->useviewAllAppointment($_SESSION["user_id"]);
+}
+
+function appointmentsCard()
+{
+    $customer = new customer();
+
+    echo $customer->appointmentsCard($_SESSION["user_id"]);
 }
 
 function deleteVehicle()

@@ -20,10 +20,12 @@ createApp({
       Certificate: "",
       dateAppointment: "",
       seriesModel: "",
+      appointmentDateOnly: "",
       registeredVehicle: 0,
       yearModel: "",
       searchAVehicle: null,
       allVehicle: [],
+      totalPendingAppoint: 0,
       selectedVehicle: [],
       scheduleInACart: [],
       events: [],
@@ -56,7 +58,7 @@ createApp({
       });
     },
     storeVehicle: function () {
-      if (this.Snumber.length >= 17) {
+      if (this.Snumber != null) {
         const vue = this;
         var data = new FormData();
         data.append("Method", "storeVehicle");
@@ -121,6 +123,14 @@ createApp({
         }
       });
     },
+    totalPendingAppointments: function () {
+      const vue = this;
+      var data = new FormData();
+      data.append("Method", "totalPendingAppointments");
+      axios.post("../Backend/mainRoutes.php", data).then(function (r) {
+        vue.totalPendingAppoint = r.data.length;
+      });
+    },
     deleteVehicle: function (id) {
       const vue = this;
       var data = new FormData();
@@ -129,6 +139,7 @@ createApp({
       axios.post("../Backend/mainRoutes.php", data).then(function (r) {
         if (r.data == 200) {
           vue.getAllVehicle();
+          alert("Successfully Deleted!");
         } else {
           alert(r.data);
         }
@@ -208,29 +219,44 @@ createApp({
     },
     sendAppointment: function () {
       const vue = this;
-      var data = new FormData();
-      data.append("Method", "sendAppointment");
-      data.append("fullname", vue.fullname);
-      data.append("email", vue.email);
-      data.append("ORNumber", vue.ORNumber);
-      data.append("wheel", vue.wheel);
-      data.append("engineNumber", vue.engineNumber);
-      data.append("seriesModel", vue.seriesModel);
-      data.append("yearModel", vue.yearModel);
-      data.append("date", vue.dateAppointment);
-      data.append("Certificate", vue.Certificate);
-      axios.post("../Backend/mainRoutes.php", data).then(function (r) {
-        if (r.data == 200) {
-          alert("Wait for admin to confirm your request");
-        } else {
-          alert(r.data);
-        }
-      });
+      if (
+        vue.fullname == "" ||
+        vue.email == "" ||
+        vue.ORNumber == "" ||
+        vue.wheel == "" ||
+        vue.engineNumber == "" ||
+        vue.seriesModel == "" ||
+        vue.yearModel == "" ||
+        vue.dateAppointment == "" ||
+        vue.Certificate == ""
+      ) {
+        alert("Fill up forms");
+      } else {
+        var data = new FormData();
+        data.append("Method", "sendAppointment");
+        data.append("fullname", vue.fullname);
+        data.append("email", vue.email);
+        data.append("ORNumber", vue.ORNumber);
+        data.append("wheel", vue.wheel);
+        data.append("engineNumber", vue.engineNumber);
+        data.append("seriesModel", vue.seriesModel);
+        data.append("yearModel", vue.yearModel);
+        data.append("date", vue.dateAppointment);
+        data.append("Certificate", vue.Certificate);
+        axios.post("../Backend/mainRoutes.php", data).then(function (r) {
+          if (r.data == 200) {
+            alert("Wait for admin to confirm your request");
+            window.location.reload();
+          } else {
+            alert(r.data);
+          }
+        });
+      }
     },
     getScheduleInACart: function () {
       const vue = this;
       var data = new FormData();
-      data.append("Method", "viewAppointment");
+      data.append("Method", "useviewAllAppointment");
       axios.post("../Backend/mainRoutes.php", data).then(function (r) {
         vue.scheduleInACart = [];
 
@@ -242,6 +268,7 @@ createApp({
             email: v.email,
             orNumber: v.orNumber,
             wheel: v.wheel,
+            status: v.status,
             engineNumber: v.engineNumber,
             appointmentDate: v.appointmentDate,
             seriesModel: v.seriesModel,
@@ -249,6 +276,18 @@ createApp({
             created_at: v.created_at,
             updated_at: v.updated_at,
           });
+        }
+      });
+    },
+    appointmentsCard: function () {
+      const vue = this;
+      var data = new FormData();
+      data.append("Method", "appointmentsCard");
+      axios.post("../Backend/mainRoutes.php", data).then(function (r) {
+        vue.scheduleInACartDateOnly = [];
+
+        for (var v of r.data) {
+          vue.appointmentDateOnly = v.appointmentDate;
         }
       });
     },
@@ -292,8 +331,7 @@ createApp({
     },
     changePassword: function () {
       if (
-        document.getElementById("newPassword").value ==
-        document.getElementById("renewPassword").value
+        document.getElementById("newPassword").value == document.getElementById("renewPassword").value
       ) {
         const vue = this;
         var data = new FormData();
@@ -331,7 +369,33 @@ createApp({
     },
     theLocaleString: function (date) {
       let d = new Date(date);
-      return d.toLocaleString("en-US", { month: "long", day: '2-digit' });
+      return d.toLocaleString("en-US", { month: "long", day: "2-digit" });
+    },
+    theLocaleDay: function (date) {
+      let d = new Date(date);
+      return d.toLocaleString("en-US", { day: "2-digit" });
+    },
+    showInformation: function () {
+      document.getElementById('information').classList.remove('visually-hidden');
+      document.getElementById('changePassword').classList.add('visually-hidden');
+      document.getElementById('changeInformation').classList.add('visually-hidden');
+      document.getElementById('changeProfileInfo').classList.add('visually-hidden');
+      document.getElementById('changeProfileInfos').classList.add('visually-hidden');
+    },
+    showChangePassword: function () {
+      document.getElementById('information').classList.add('visually-hidden');
+      document.getElementById('changePassword').classList.remove('visually-hidden');
+      document.getElementById('changeInformation').classList.add('visually-hidden');
+      document.getElementById('changeProfileInfo').classList.add('visually-hidden');
+      document.getElementById('changeProfileInfos').classList.add('visually-hidden');
+    },
+    showChangeInformation: function () {
+      document.getElementById('information').classList.add('visually-hidden');
+      document.getElementById('changePassword').classList.add('visually-hidden');
+      document.getElementById('changeInformation').classList.remove('visually-hidden');
+      document.getElementById('changeProfileInfo').classList.remove('visually-hidden');
+      document.getElementById('hideToChangeInfo').classList.add('visually-hidden');
+      document.getElementById('changeProfileInfos').classList.remove('visually-hidden');
     },
   },
   computed: {
@@ -349,7 +413,9 @@ createApp({
     this.getAllVehicle();
     this.getSchedule();
     this.getScheduleInACart();
+    this.appointmentsCard();
     this.user();
+    this.totalPendingAppointments();
     this.allEventsAdmin();
   },
 }).mount("#customer-vue");
